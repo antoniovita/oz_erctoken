@@ -1,37 +1,37 @@
 # GLDToken — ERC20 Utility Token (Hardhat 3 + OpenZeppelin)
 
-Este projeto é um **token ERC20** desenvolvido com **Solidity**, utilizando os contratos auditados da **OpenZeppelin** e o **Hardhat 3** como framework de desenvolvimento, testes e deploy.
+This project is an **ERC20 token** built with **Solidity**, using audited **OpenZeppelin** contracts and **Hardhat 3** as the development, testing, and deployment framework.
 
-O objetivo do projeto é demonstrar:
+The goal of the project is to demonstrate:
 
-* implementação correta de um ERC20
-* uso de boas práticas
-* testes automatizados
-* deploy em blockchain local e testnet
+* correct ERC20 implementation
+* use of best practices
+* automated tests
+* deployment on a local blockchain and a testnet
 
 ---
 
-## Visão Geral
+## Overview
 
-O **GLDToken** é um token ERC20 padrão, com:
+**GLDToken** is a standard ERC20 token with:
 
-* nome: **Gold**
-* símbolo: **GLD**
-* 18 casas decimais
-* supply inicial definido no deploy
-* compatibilidade total com wallets e explorers (MetaMask, Etherscan, etc.)
+* name: **Gold**
+* symbol: **GLD**
+* 18 decimals
+* initial supply defined at deploy
+* full compatibility with wallets and explorers (MetaMask, Etherscan, etc.)
 
-O projeto serve como **base para tokens utilitários**, podendo ser estendido com:
+The project serves as a **base for utility tokens**, and can be extended with:
 
 * staking
-* governança
-* taxas
+* governance
+* fees
 * burn
-* mint controlado
+* controlled minting
 
 ---
 
-## Tecnologias Utilizadas
+## Technologies Used
 
 * **Solidity** `^0.8.x`
 * **OpenZeppelin Contracts**
@@ -42,7 +42,7 @@ O projeto serve como **base para tokens utilitários**, podendo ser estendido co
 
 ---
 
-## Estrutura do Projeto
+## Project Structure
 
 ```
 .
@@ -52,95 +52,95 @@ O projeto serve como **base para tokens utilitários**, podendo ser estendido co
 │   └── deploy.js           # Script de deploy
 ├── test/
 │   └── GLDToken.ts         # Testes automatizados
-├── ignition/               # (opcional) Módulos de deploy, no caso fiz o deploy com script
+├── ignition/               # (optional) Deployment modules; in this case I used a script
 ├── hardhat.config.ts       # Configuração do Hardhat
 └── README.md
 ```
 
 ---
 
-## Contrato
+## Contract
 
-O token utiliza o ERC20 da OpenZeppelin:
+The token uses OpenZeppelin's ERC20:
 
 ```solidity
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 ```
 
-O supply inicial é criado no deploy e enviado para o deployer.
+The initial supply is created at deploy and sent to the deployer.
 
 ---
 
-## Rodando os Testes
+## Running Tests
 
-Para rodar **todos os testes**:
+To run **all tests**:
 
 ```bash
 npx hardhat test
 ```
 
-Para rodar apenas:
+To run only:
 
-* testes Solidity:
+* Solidity tests:
 
   ```bash
   npx hardhat test solidity
   ```
-* testes Mocha / ethers:
+* Mocha / ethers tests:
 
   ```bash
   npx hardhat test mocha
   ```
 
-Os testes cobrem:
+The tests cover:
 
-* metadados do token
-* mint inicial
-* transferências
+* token metadata
+* initial mint
+* transfers
 * approve / transferFrom
-* reverts esperados
+* expected reverts
 
 ---
 
-## Blockchain Local (Simulada)
+## Local Blockchain (Simulated)
 
-Para subir uma blockchain local (igual ao Remix “JavaScript VM”):
+To start a local blockchain (like Remix "JavaScript VM"):
 
 ```bash
 npx hardhat node
 ```
 
-Isso cria uma rede local em `http://127.0.0.1:8545` com contas pré-carregadas.
+This creates a local network at `http://127.0.0.1:8545` with pre-funded accounts.
 
 ---
 
-## Deploy Local
+## Local Deploy
 
-Em outro terminal, após subir o node:
+In another terminal, after starting the node:
 
 ```bash
 npx hardhat run scripts/deploy.js --network localhost
 ```
 
-O script faz:
+The script does:
 
-* deploy do contrato
-* log do endereço
-* verificação de supply inicial
+* contract deployment
+* address logging
+* initial supply verification
 
 ---
 
-## Deploy em Testnet (Sepolia)
+## Testnet Deploy (Sepolia)
 
-Para fazer deploy em Sepolia:
+To deploy to Sepolia:
 
-1. Configure sua chave privada:
+1. Set your private key:
 
    ```bash
    npx hardhat keystore set SEPOLIA_PRIVATE_KEY
    ```
 
-2. Execute o deploy:
+2. Run the deploy:
 
    ```bash
    npx hardhat run scripts/deploy.js --network sepolia
@@ -148,20 +148,20 @@ Para fazer deploy em Sepolia:
 
 ---
 
-## Interação Manual (Hardhat Console)
+## Manual Interaction (Hardhat Console)
 
-Para interagir com o contrato (igual Remix, via terminal):
+To interact with the contract (like Remix, via terminal):
 
 ```bash
 npx hardhat console --network localhost
 ```
 
-Exemplo:
+Example:
 
 ```js
 const { ethers } = await hre.network.connect()
 const [deployer, alice] = await ethers.getSigners()
 
-const token = await ethers.getContractAt("GLDToken", "ENDERECO_DO_CONTRATO")
+const token = await ethers.getContractAt("GLDToken", "CONTRACT_ADDRESS")
 await token.transfer(alice.address, 10n * 10n ** 18n)
 ```
